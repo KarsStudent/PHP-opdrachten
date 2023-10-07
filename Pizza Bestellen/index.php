@@ -51,6 +51,16 @@
             "Formaggi" => 14.50
         );
 
+        $aantalPizzas = 0;
+
+        foreach ($pizzaPrijs as $pizzaNaam => $placeholder) {
+            $aantalPizzas += $_POST[$pizzaNaam];
+        }
+
+        if ($aantalPizzas <= 0) {
+            echo "<h3>Kies tenminste 1 pizza!</h3>";
+        }
+
         $totaalPrijs = 0;
 
         echo ("<h2>Pizza's:</h2>");
