@@ -11,12 +11,12 @@ $pizzaPrijs = array (
 function prijs($pizza) {
     global $pizzaPrijs;
     if (date("l") == "Monday") {
-        return " €7,50 ";
+        return "€7,50";
     } else if (date("l") == "Friday") {
         $prijs = $pizzaPrijs[$pizza] * 0.85;
-        return " €".number_format($prijs, 2, ",", ",")." ";
+        return "€".number_format($prijs, 2, ",", ",");
     } else {
-        return " €".number_format($pizzaPrijs[$pizza], 2, ",", ",")." ";
+        return "€".number_format($pizzaPrijs[$pizza], 2, ",", ",");
     }
 }
 

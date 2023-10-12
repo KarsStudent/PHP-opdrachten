@@ -1,4 +1,125 @@
+* {
+    color: brown;
+    font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+    margin: 0;
+    padding: 0;
+}
+
 body {
-    background-color: #9E5E2F;
-    background-image: url('./images/wood.jpg');
+    background-color: #97522D;
+    background-image: url('../images/wood.jpg');
+    background-size: 1520px;
+}
+
+input {
+    border-radius: 5px;
+}
+
+.titel {
+    background-color: rgba(255, 255, 255, 0.679);
+    font-size: 300%;
+    text-align: center;
+
+    width: 100%;
+}
+
+.pizzaContainer {
+    outline: solid white 3px;
+
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+
+    width: 98vw;
+
+    max-width: 98%;
+
+    margin: 1vw;
+}
+
+.pizzaKader {
+    border: solid black 1px;
+    border-radius: 3px;
+    background-color: rgba(255, 255, 255, 0.679);
+
+    text-align: center;
+
+    width: 300px;
+    height: 300px;
+
+    margin: 5.5%;
+}
+
+.pizzaNaam {
+    font-size: 180%;
+
+    margin: 5px;
+}
+
+.pizzaImage {
+    width: 290px;
+
+    margin: 5px;
+}
+
+.hoeveelheid {
+    text-align: center;
+
+    width: 30px;
+    height: 30px;
+
+    margin: 5px;
+}
+
+.pizzaNaam, .pizzaImage, .pizzaPrijs, .hoeveelheid {
+    display: inline;
+    justify-content: center;
+}
+
+.optiesContainer {
+    outline: solid white 3px;
+
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+
+    margin: 1%;
+}
+
+.gegevens, .bezorgen, .opslaan {
+    background-color: rgba(255, 255, 255, 0.679);
+    border: solid black 1px;
+    border-radius: 3px;
+
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    flex-direction: column;
+
+    width: 300px;
+    height: 470px;
+
+    margin: 1%;
+}
+
+#naam, #adres, #postcode, #plaats, #datum {
+    height: 40px;
+}
+
+.opslaanContainer {
+    width: 100%;
+}
+
+.opslaan {
+    font-weight: bold;
+    font-size: 200%;
+
+    height: 50px;
+
+    margin: auto;
+    margin-bottom: 1%;
+}
+
+.opslaan:hover {
+    background-color: rgba(165, 83, 42, 0.778);;
 }
