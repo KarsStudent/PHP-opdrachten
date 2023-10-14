@@ -32,7 +32,7 @@ if (isset($_POST["keuze_opslaan"])) {
 
             $totaalPrijs += $pizzaTotaal;
 
-            echo "<p>$pizzaNaam: Aantal: ".$_POST[$pizzaNaam]." ".number_format($pizzaTotaal, 2, ",", ",")."</p>";
+            echo "<p>$pizzaNaam: Aantal: ".$_POST[$pizzaNaam]." €".number_format($pizzaTotaal, 2, ",", ".")."</p>";
         }
     } else if (date("l") == "Friday") {
         foreach ($pizzaPrijs as $pizzaNaam => $pizzaPrijs) {
@@ -40,7 +40,7 @@ if (isset($_POST["keuze_opslaan"])) {
 
             $totaalPrijs += $pizzaTotaal;
 
-            echo "<p>$pizzaNaam: Aantal: ".$_POST[$pizzaNaam]." ".number_format($pizzaTotaal, 2, ",", ",")."</p>";
+            echo "<p>$pizzaNaam: Aantal: ".$_POST[$pizzaNaam]." €".number_format($pizzaTotaal, 2, ",", ".")."</p>";
         }
     } else {
         foreach ($pizzaPrijs as $pizzaNaam => $pizzaPrijs) {
@@ -48,23 +48,17 @@ if (isset($_POST["keuze_opslaan"])) {
 
             $totaalPrijs += $pizzaTotaal;
 
-            echo "<p class='test'>$pizzaNaam: Aantal: ".$_POST[$pizzaNaam]." ".number_format($pizzaTotaal, 2, ",", ",")."</p>";
+            echo "<p>$pizzaNaam: Aantal: ".$_POST[$pizzaNaam]." €".number_format($pizzaTotaal, 2, ",", ".")."</p>";
         }
     }
 
     if ($_POST["bezorgen"] == "Bezorgen") {
         $totaalPrijs += 5;
+
+        echo "Bezorg kosten: €5,00";
     }
 
-    echo ("<h2>Totaal: €".number_format($totaalPrijs, 2, ",", ",")."</h2>");
-
-    echo ("<h2>Gegevens:</h2>");
-    echo ("<p>Naam: ".$_POST["naam"]."</p>");
-    echo ("<p>Adres: ".$_POST["adres"]."</p>");
-    echo ("<p>Postcode: ".$_POST["postcode"]."</p>");
-    echo ("<p>Plaats: ".$_POST["plaats"]."</p>");
-    echo ("<p>Besteldatum: ".$_POST["datum"]."</p>");
-    echo ("<p>Afhalen of bezorgen: ".$_POST["bezorgen"]."</p>");
+    echo ("<p class='totaal'>Totaal: €".number_format($totaalPrijs, 2, ",", ".")."</p>");
 }
 
 ?>

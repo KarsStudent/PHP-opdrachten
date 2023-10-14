@@ -10,9 +10,9 @@
     </script>
 </head>
 <body>
-    <form action="./bestelling.php" method="post">
+    <form action="<?php doorsturen() ?>" method="post">
         <div class="pizzaContainer">
-            <h2 class="titel">Pizza's:</h2>
+            <h1 class="titel">Pizza's:</h1>
 
             <span class="pizzaKader">
                 <label for="Margarita" class="pizzaNaam">Margarita:</label>
@@ -85,6 +85,10 @@
                     <input type="radio" id="bezorgen" name="bezorgen" value="Bezorgen">
                 </div>
             </div>
+            <div class="tenminste1PizzaContainer">
+                <?php tenminste1Pizza() ?>
+            </div>
+
             <div class="opslaanContainer"><input type="submit" value="Opslaan" name="keuze_opslaan" class="opslaan"></div>
         </div>
     </form>

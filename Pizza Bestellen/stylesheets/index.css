@@ -34,7 +34,7 @@ input {
 
     max-width: 98%;
 
-    margin: 1vw;
+    margin: 1%;
 }
 
 .pizzaKader {
@@ -106,6 +106,21 @@ input {
     height: 40px;
 }
 
+.tenminste1PizzaContainer {
+    width: 100%;
+}
+
+.tenminste1Pizza {
+    background-color: rgba(255, 255, 255, 0.679);
+    border: solid black 1px;
+    border-radius: 3px;
+    text-align: center;
+
+    width: 300px;
+
+    margin: auto;
+}
+
 .opslaanContainer {
     width: 100%;
 }
@@ -114,6 +129,7 @@ input {
     font-weight: bold;
     font-size: 200%;
 
+    width: 300px;
     height: 50px;
 
     margin: auto;
@@ -121,5 +137,5 @@ input {
 }
 
 .opslaan:hover {
-    background-color: rgba(165, 83, 42, 0.778);;
+    background-color: rgba(165, 83, 42, 0.778);
 }
