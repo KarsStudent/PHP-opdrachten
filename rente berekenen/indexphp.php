@@ -8,6 +8,7 @@ if (isset($_POST["submit"])) {
         exit ("Alleen getallen!");
     }
 
+    echo "<h2>Berekening</h2>";
     echo "<p>Het ingelegde bedrag is: ".$_POST["bedrag"]."</p>";
     echo "<p>Het rente percentage is: ".$_POST["rentepercentage"]."%</p><br>";
 
