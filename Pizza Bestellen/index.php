@@ -10,7 +10,7 @@
     </script>
 </head>
 <body>
-    <form action="<?php doorsturen() ?>" method="post">
+    <form action="./bevestiging.php" method="post">
         <div class="pizzaContainer">
             <h1 class="titel">Pizza's:</h1>
 

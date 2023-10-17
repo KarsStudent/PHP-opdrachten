@@ -21,36 +21,4 @@ function prijs($pizza) {
     }
 }
 
-function tenminste1Pizza() {
-    global $pizzaPrijs;
-
-    if (isset($_POST["keuze_opslaan"])) {
-        $aantalPizzas = 0;
-
-        foreach ($pizzaPrijs as $pizzaNaam => $placeholder) {
-            $aantalPizzas += $_POST[$pizzaNaam];
-        }
-
-        if ($aantalPizzas <= 0) {
-            echo "<h3 class='tenminste1Pizza'>Kies tenminste 1 pizza!</h3>";
-        }
-    }
-}
-
-function doorsturen() {
-    global $pizzaPrijs;
-
-    $aantalPizzas = 0;
-
-    if (isset($_POST["keuze_opslaan"])) {
-        foreach ($pizzaPrijs as $pizzaNaam => $placeholder) {
-            $aantalPizzas += $_POST[$pizzaNaam];
-        }
-
-        if ($aantalPizzas >= 0) {
-            echo "./bevestiging.php";
-        }
-    }
-}
-
 ?>
