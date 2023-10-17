@@ -11,7 +11,7 @@
 
     <div class="verwerkingsKader">
         <div class="bedankt">
-            <h1>Bedankt voor uw bestelling!</h1>
+            <h1><?php include "./phpsheets/bevestigingphp.php" ?></h1>
         </div>
         <div class="bestellingKader">
             <?php include "./phpsheets/bestellingphp.php" ?>

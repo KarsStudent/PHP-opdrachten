@@ -11,17 +11,6 @@ if (isset($_POST["keuze_opslaan"])) {
     );
 
     $aantalPizzas = 0;
-
-    foreach ($pizzaPrijs as $pizzaNaam => $placeholder) {
-        $aantalPizzas += $_POST[$pizzaNaam];
-    }
-
-    if ($aantalPizzas <= 0) {
-        echo "<h3>Kies tenminste 1 pizza!</h3>";
-        echo "<a href='./index.php'><button>Terug</button></a>";
-        exit;
-    }
-
     $totaalPrijs = 0;
 
     echo ("<h2>Pizza's:</h2>");
