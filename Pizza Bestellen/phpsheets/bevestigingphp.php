@@ -1,17 +1,11 @@
 <?php
 
-if (isset($_POST["keuze_opslaan"])) {
-    $pizzaPrijs = array (
-        "Margarita" => 12.50,
-        "Funghi" => 12.50,
-        "Marina" => 13.95,
-        "Hawaii" => 11.50,
-        "Formaggi" => 14.50
-    );
+include "arrayPizza's.php";
 
+if (isset($_POST["keuze_opslaan"])) {        
     $aantalPizzas = 0;
-
-    foreach ($pizzaPrijs as $pizzaNaam => $placeholder) {
+        
+    foreach ($arrayPizza as $pizzaNaam => $placeholder) {
         $aantalPizzas += $_POST[$pizzaNaam];
     }
 

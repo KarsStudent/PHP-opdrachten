@@ -1,43 +1,42 @@
 <?php
 
 if (isset($_POST["keuze_opslaan"])) {
-
-    $pizzaPrijs = array (
-        "Margarita" => 12.50,
-        "Funghi" => 12.50,
-        "Marina" => 13.95,
-        "Hawaii" => 11.50,
-        "Formaggi" => 14.50
-    );
+    include "arrayPizza's.php";
 
     $aantalPizzas = 0;
     $totaalPrijs = 0;
 
-    echo ("<h2>Pizza's:</h2>");
+    $datum = strtotime($_POST["datum"]);
+    $dag = date("l", $datum);
+    var_dump($dag);
 
-    if (date("l") == "Monday") {
-        foreach ($pizzaPrijs as $pizzaNaam => $pizzaPrijs) {
+    echo ("<h2>Bestelling:</h2>");
+
+    foreach ($arrayPizza as $pizzaNaam => $pizzaPrijs) {
+        if ($dag == "Monday") {
             $pizzaTotaal = 7.50 * $_POST[$pizzaNaam];
 
             $totaalPrijs += $pizzaTotaal;
 
-            echo "<p>$pizzaNaam: Aantal: ".$_POST[$pizzaNaam]." €".number_format($pizzaTotaal, 2, ",", ".")."</p>";
-        }
-    } else if (date("l") == "Friday") {
-        foreach ($pizzaPrijs as $pizzaNaam => $pizzaPrijs) {
+            if ($_POST[$pizzaNaam] > 0) {
+                echo "<p>Aantal: ".$_POST[$pizzaNaam]." $pizzaNaam: €".number_format($pizzaTotaal, 2, ",", ".")."</p>";
+            }
+        } else if ($dag == "Friday") {
             $pizzaTotaal = $pizzaPrijs * 0.85 * $_POST[$pizzaNaam];
 
             $totaalPrijs += $pizzaTotaal;
 
-            echo "<p>$pizzaNaam: Aantal: ".$_POST[$pizzaNaam]." €".number_format($pizzaTotaal, 2, ",", ".")."</p>";
-        }
-    } else {
-        foreach ($pizzaPrijs as $pizzaNaam => $pizzaPrijs) {
+            if ($_POST[$pizzaNaam] > 0) {
+                echo "<p>Aantal: ".$_POST[$pizzaNaam]." $pizzaNaam: €".number_format($pizzaTotaal, 2, ",", ".")."</p>";
+            }
+        } else {
             $pizzaTotaal = $pizzaPrijs * $_POST[$pizzaNaam];
 
             $totaalPrijs += $pizzaTotaal;
 
-            echo "<p>$pizzaNaam: Aantal: ".$_POST[$pizzaNaam]." €".number_format($pizzaTotaal, 2, ",", ".")."</p>";
+            if ($_POST[$pizzaNaam] > 0) {
+                echo "<p>Aantal: ".$_POST[$pizzaNaam]." $pizzaNaam: €".number_format($pizzaTotaal, 2, ",", ".")."</p>";
+            }
         }
     }
 

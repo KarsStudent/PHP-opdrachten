@@ -5,45 +5,13 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Pizza dela Zoltar</title>
     <link rel="stylesheet" href="./stylesheets/index.css">
-    <script>
-        <?php include "./phpsheets/indexphp.php" ?>
-    </script>
 </head>
 <body>
     <form action="./bevestiging.php" method="post">
         <div class="pizzaContainer">
-            <h1 class="titel">Pizza's:</h1>
+            <h1 class="titel">Pizza:</h1>
 
-            <span class="pizzaKader">
-                <label for="Margarita" class="pizzaNaam">Margarita:</label>
-                <img src="./images/margarita.jpg" alt="Pizza Margarita" class="pizzaImage">
-                <p class="pizzaPrijs"><?= prijs("Margarita"); ?></p>
-                <input type="number" placeholder="Margarita" min="0" max="10" id="Margarita" name="Margarita" value="0" class="hoeveelheid"><br>
-            </span>
-            <span class="pizzaKader">
-                <label for="Funghi" class="pizzaNaam">Funghi:</label>
-                <img src="./images/funghi.jpg" alt="Pizza Funghi" class="pizzaImage">
-                <p class="pizzaPrijs"><?= prijs("Funghi"); ?></p>
-                <input type="number" placeholder="Funghi" min="0" max="10" id="Funghi" name="Funghi" value="0" class="hoeveelheid"><br>
-            </span>
-            <span class="pizzaKader">
-                <label for="Marina" class="pizzaNaam">Marina:</label>
-                <img src="./images/marina.jpg" alt="Pizza Marina" class="pizzaImage">
-                <p class="pizzaPrijs"><?= prijs("Marina"); ?></p>
-                <input type="number" placeholder="Marina" min="0" max="10" id="Marina" name="Marina" value="0" class="hoeveelheid"><br>
-            </span>
-            <span class="pizzaKader">
-                <label for="Hawaii" class="pizzaNaam">Hawaii:</label>
-                <img src="./images/hawaii.jpg" alt="Pizza Hawaii" class="pizzaImage">
-                <p class="pizzaPrijs"><?= prijs("Hawaii"); ?></p>
-                <input type="number" placeholder="Hawaii" min="0" max="10" id="Hawaii" name="Hawaii" value="0" class="hoeveelheid"><br>
-            </span>
-            <span class="pizzaKader">
-                <label for="Formaggi" class="pizzaNaam">Quatro Formaggi:</label>
-                <img src="./images/quatro formaggi.jpg" alt="Pizza Quatro Formaggi" class="pizzaImage">
-                <p class="pizzaPrijs"><?= prijs("Formaggi"); ?></p>
-                <input type="number" placeholder="Quatro Formaggi" min="0" max="10" id="Formaggi" name="Formaggi" value="0" class="hoeveelheid"><br><br>
-            </span>
+            <?php include "./phpsheets/indexphp.php" ?>
         </div>
 
         <div class="optiesContainer">
@@ -68,8 +36,8 @@
                     <input type="text" placeholder="Plaats" id="plaats" name="plaats" maxlength="20" required><br><br>
                 </div>
                 <div>
-                    <label for="datum">Besteldatum:</label><br>
-                    <input type="datetime-local" id="datum" name="datum" value="<?= date("Y-m-d\TH:i") ?>">
+                    <label for="datum">Bezorgdatum:</label><br>
+                    <input type="datetime-local" id="datum" name="datum" required>
                 </div>
             </div>
             <div class="bezorgen">
