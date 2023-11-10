@@ -9,7 +9,7 @@
 <body>
     <form action="./bevestiging.php" method="post">
         <div class="pizzaContainer">
-            <h1 class="titel">Pizza:</h1>
+            <h1 class="titel">Bestellen:</h1>
 
             <?php include "./phpsheets/indexphp.php" ?>
         </div>
@@ -54,8 +54,29 @@
                 </div>
             </div>
 
-            <div class="opslaanContainer"><input type="submit" value="Opslaan" name="keuze_opslaan" class="opslaan"></div>
+            <div class="opslaanContainer">
+                <input type="submit" value="Opslaan" name="keuze_opslaan" class="opslaan">
+            </div>
         </div>
     </form>
+
+    <div class="prijzen">
+        <h2 class="containerTitel">Prijzenlijst:</h2>
+
+        <div class="dag">
+            <h2>Normale prijzen:</h2>
+            <?php normalePrijs(); ?>
+        </div>
+
+        <div class="dag">
+            <h2>Prijzen op maandag:</h2>
+            <p>Alle pizza's voor €7,50!</p>
+        </div>
+
+        <div class="dag">
+            <h2>Prijzen op vrijdag:</h2>
+            <?php vrijdagPrijs(); ?>
+        </div>
+    </div>
 </body>
 </html>

@@ -8,7 +8,6 @@ if (isset($_POST["keuze_opslaan"])) {
 
     $datum = strtotime($_POST["datum"]);
     $dag = date("l", $datum);
-    var_dump($dag);
 
     echo ("<h2>Bestelling:</h2>");
 

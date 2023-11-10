@@ -23,6 +23,15 @@ input {
     width: 100%;
 }
 
+.bezorgDatum {
+    border: solid black 1px;
+    background-color: rgba(255, 255, 255, 0.679);
+    border-radius: 3px;
+
+    margin: 1% 100%;
+    padding: 1%;
+}
+
 .pizzaContainer {
     outline: solid white 3px;
 
@@ -127,4 +136,34 @@ input {
 
 .opslaan:hover {
     background-color: rgba(165, 83, 42, 0.778);
+}
+
+.prijzen {
+    outline: solid white 3px;
+
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+
+    width: 98%;
+    max-width: 100%;
+
+    margin: 1%;
+}
+
+.containerTitel {
+    background-color: rgba(255, 255, 255, 0.679);
+    text-align: center;
+
+    width: 100%;
+}
+
+.dag {
+    background-color: rgba(255, 255, 255, 0.679);
+    border: solid black 1px;
+    border-radius: 3px;
+
+    width: 300px;
+
+    margin: 1%;
 }
