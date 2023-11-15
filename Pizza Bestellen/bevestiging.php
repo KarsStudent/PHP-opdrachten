@@ -5,19 +5,20 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Pizza dela Zoltar</title>
     <link rel="stylesheet" href="./stylesheets/bevestiging.css">
+    <?php include "./phpsheets/bevestigingphp.php" ?>
 </head>
 <body>
     <img src="./images/italie.png" alt="Vlag van Italië" class="vlagItalie">
 
     <div class="verwerkingsKader">
         <div class="bedankt">
-            <h1><?php include "./phpsheets/bevestigingphp.php" ?></h1>
+            <?php eenPizza() ?>
         </div>
         <div class="bestellingKader">
-            <?php include "./phpsheets/bestellingphp.php" ?>
+            <?php bestelling() ?>
         </div>
         <div class="gegevensKader">
-            <?php include "./phpsheets/gegevensphp.php" ?>
+            <?php gegevens() ?>
         </div>
     </div>
 

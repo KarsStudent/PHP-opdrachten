@@ -2,13 +2,17 @@
 
 include "./phpsheets/arrayPizza's.php";
 
-foreach ($arrayPizza as $pizzaNaam => $pizzaPrijs) {
-    echo "<span class='pizzaKader'>";
-    echo "<label for='$pizzaNaam' class='pizzaNaam'>$pizzaNaam:</label>";
-    echo "<img src='./images/DefaultPizzaImage.jpg' alt='Pizza $pizzaNaam' class='pizzaImage'>";
-    echo "<p class='pizzaPrijs'>".prijs("$pizzaNaam")."</p>";
-    echo "<input type='number' placeholder='$pizzaNaam' min='0' max='10' id='$pizzaNaam' name='$pizzaNaam' value='0' class='hoeveelheid'><br>";
-    echo "</span>";
+function displayPizza() {
+    global $arrayPizza;
+
+    foreach ($arrayPizza as $pizzaNaam => $pizzaPrijs) {
+        echo "<span class='pizzaKader'>";
+        echo "<label for='$pizzaNaam' class='pizzaNaam'>$pizzaNaam:</label>";
+        echo "<img src='./images/DefaultPizzaImage.jpg' alt='Pizza $pizzaNaam' class='pizzaImage'>";
+        echo "<p class='pizzaPrijs'>".prijs("$pizzaNaam")."</p>";
+        echo "<input type='number' placeholder='$pizzaNaam' min='0' max='10' id='$pizzaNaam' name='$pizzaNaam' value='0' class='hoeveelheid'><br>";
+        echo "</span>";
+    }
 }
 
 function prijs($pizza) {

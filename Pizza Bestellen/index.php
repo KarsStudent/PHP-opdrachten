@@ -5,13 +5,14 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Pizza dela Zoltar</title>
     <link rel="stylesheet" href="./stylesheets/index.css">
+    <?php include "./phpsheets/indexphp.php" ?>
 </head>
 <body>
     <form action="./bevestiging.php" method="post">
         <div class="pizzaContainer">
             <h1 class="titel">Bestellen:</h1>
 
-            <?php include "./phpsheets/indexphp.php" ?>
+            <?php displayPizza() ?>
         </div>
 
         <div class="optiesContainer">
