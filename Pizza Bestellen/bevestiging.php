@@ -13,7 +13,7 @@
 
     <div class="verwerkingsKader">
         <div class="bedankt">
-            <?php //eenPizza() ?>
+            <?php eenPizza() ?>
         </div>
         <div class="bestellingKader">
             <?php bestelling() ?>
