@@ -1,7 +1,5 @@
 <?php
 
-print_r($_POST);
-
 $servername = "localhost";
 $dbname = "pizza bestellen";
 $username = "root";
@@ -10,12 +8,11 @@ $password = "";
 try {
     $conn = new PDO("mysql:host=$servername; dbname=$dbname", $username, $password);
     $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-    echo "Connected successfully!";
 } catch(PDOException $e) {
     echo "Connection failed: " . $e->getMessage();
 }
 
-$query = "SELECT pizza, prijs FROM pizza";
+$query = "SELECT `pizza naam`, prijs FROM pizza";
 
 $data = $conn->prepare($query);
 $data->execute(array());
@@ -28,7 +25,7 @@ function eenPizza() {
         $aantalPizzas = 0;
 
         foreach ($pizzas as $pizza) {
-            $pizzaKey = str_replace(" ", "_", $pizza["pizza"]);
+            $pizzaKey = str_replace(" ", "_", $pizza["pizza naam"]);
 
             $aantalPizzas += $_POST[$pizzaKey];
         }
@@ -60,14 +57,14 @@ function bestelling() {
         echo ("<h2>Bestelling:</h2>");
 
         foreach ($pizzas as $pizza) {
-            $pizzaKey = str_replace(" ", "_", $pizza["pizza"]);
+            $pizzaKey = str_replace(" ", "_", $pizza["pizza naam"]);
 
             if ($dag == "Monday") {
                 $pizzaTotaal = 7.50 * $_POST[$pizzaKey];
 
                 $totaalPrijs += $pizzaTotaal;
             } else if ($dag == "Friday") {
-                $pizzaTotaal = $pizzaPrijs * 0.85 * $_POST[$pizzaKey];
+                $pizzaTotaal = $pizza["prijs"] * 0.85 * $_POST[$pizzaKey];
 
                 $totaalPrijs += $pizzaTotaal;
             } else {
@@ -77,7 +74,7 @@ function bestelling() {
             }
 
             if ($_POST[$pizzaKey] > 0) {
-                echo "<p>Aantal: " . $_POST[$pizzaKey] . " " . $pizza["pizza"] . ": €" . number_format($pizzaTotaal, 2, ",", ".") . "</p>";
+                echo "<p>Aantal: " . $_POST[$pizzaKey] . " " . $pizza["pizza naam"] . ": €" . number_format($pizzaTotaal, 2, ",", ".") . "</p>";
             }
         }
 

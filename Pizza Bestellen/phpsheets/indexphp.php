@@ -7,43 +7,37 @@ $password = "";
 
 try {
     $conn = new PDO("mysql:host=$servername; dbname=$dbname", $username, $password);
-    // set the PDO error mode to exception
     $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-    echo "Database has connecteded succesfully!";
 } catch(PDOException $e) {
     echo "Connection failed: ".$e->getMessage();
 }
 
+$query = "SELECT * FROM pizza";
+
+$data = $conn->prepare($query);
+$data->execute(array());
+$pizzas = $data->fetchALL(PDO::FETCH_ASSOC);
+
 function displayPizza() {
-    global $conn;
-
-    $query = "SELECT * FROM pizza";
-
-    $data = $conn->prepare($query);
-    $data->execute(array());
-    $pizzas = $data->fetchALL(PDO::FETCH_ASSOC);
+    global $pizzas;
 
     foreach ($pizzas as $pizza) {
         echo "<span class='pizzaKader'>";
-        echo "<label for='".$pizza["pizza"]."' class='pizzaNaam'>".$pizza["pizza"].":</label>";
-        echo "<img src='./images/DefaultPizzaImage.jpg' alt='Pizza ".$pizza["pizza"]."' class='pizzaImage'>";
+        echo "<label for='".$pizza["pizza naam"]."' class='pizzaNaam'>".$pizza["pizza naam"].":</label>";
+        echo "<img src='./images/DefaultPizzaImage.jpg' alt='Pizza ".$pizza["pizza naam"]."' class='pizzaImage'>";
         echo "<p class='pizzaPrijs'>€".number_format($pizza["prijs"], 2, ",", ".")."</p>";
-        echo "<input type='number' placeholder='".$pizza["pizza"]."' min='0' max='10' id='".$pizza["pizza"]."' name='".$pizza["pizza"]."' value='0' class='hoeveelheid'><br>";
+        echo "<input type='number' placeholder='".$pizza["pizza naam"]."' min='0' max='10' id='".$pizza["pizza naam"]."' name='".$pizza["pizza naam"]."' value='0' class='hoeveelheid'><br>";
         echo "</span>";
     }
 }
 
 function prijs() {
-    global $conn;
+    global $pizzas;
 
     $query = "SELECT * FROM pizza";
 
-    $data = $conn->prepare($query);
-    $data->execute(array());
-    $pizzas = $data->fetchALL(PDO::FETCH_ASSOC);
-
     foreach ($pizzas as $pizza) {
-        echo "<p>".$pizza["pizza"].": €".number_format($pizza["prijs"], 2, ",", ".")."</p>";
+        echo "<p>".$pizza["pizza naam"].": €".number_format($pizza["prijs"], 2, ",", ".")."</p>";
     }
 }
 
