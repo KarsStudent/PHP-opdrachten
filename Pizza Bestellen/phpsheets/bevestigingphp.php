@@ -1,19 +1,35 @@
 <?php
 
-include "arrayPizza's.php";
+$servername = "localhost";
+$dbname = "pizza bestellen";
+$username = "root";
+$password = "";
+
+try {
+    $conn = new PDO("mysql:host=$servername; dbname=$dbname", $username, $password);
+    // set the PDO error mode to exception
+    $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+    echo "Connected successfully!";
+} catch(PDOException $e) {
+    echo "Connection failed: " . $e->getMessage();
+}
 
 function eenPizza() {
-    global $arrayPizza;
+    global $pizzas;
 
-    if (isset($_POST["keuze_opslaan"])) {        
+    if (isset($_POST["keuze_opslaan"])) {
         $aantalPizzas = 0;
 
-        foreach ($arrayPizza as $pizzaNaam => $placeholder) {
+        foreach ($pizzas as $pizza) {
             $aantalPizzas += $_POST[$pizzaNaam];
         }
 
         if ($aantalPizzas <= 0) {
             echo "<h1>Kies tenminste 1 pizza!</h1>";
+            echo "<a href='./index.php'><button>Terug</button></a>";
+            exit;
+        } else if ($_POST["datum"] < date("Y-m-d\TH:i")) {
+            echo "<h1>Kies een datum in de toekomst!</h1>";
             echo "<a href='./index.php'><button>Terug</button></a>";
             exit;
         } else {
@@ -23,7 +39,7 @@ function eenPizza() {
 }
 
 function bestelling() {
-    global $arrayPizza;
+    global $conn;
 
     if (isset($_POST["keuze_opslaan"])) {
         $aantalPizzas = 0;
@@ -34,31 +50,29 @@ function bestelling() {
 
         echo ("<h2>Bestelling:</h2>");
 
-        foreach ($arrayPizza as $pizzaNaam => $pizzaPrijs) {
+        $query = "SELECT pizza, prijs FROM pizza";
+
+        $data = $conn->prepare($query);
+        $data->execute(array());
+        $pizzas = $data->fetchALL(PDO::FETCH_ASSOC);
+
+        foreach ($pizzas as $pizza) {
             if ($dag == "Monday") {
-                $pizzaTotaal = 7.50 * $_POST[$pizzaNaam];
+                $pizzaTotaal = 7.50 * $_POST[$pizza["pizza"]];
 
                 $totaalPrijs += $pizzaTotaal;
-
-                if ($_POST[$pizzaNaam] > 0) {
-                    echo "<p>Aantal: ".$_POST[$pizzaNaam]." $pizzaNaam: €".number_format($pizzaTotaal, 2, ",", ".")."</p>";
-                }
             } else if ($dag == "Friday") {
-                $pizzaTotaal = $pizzaPrijs * 0.85 * $_POST[$pizzaNaam];
+                $pizzaTotaal = $pizzaPrijs * 0.85 * $_POST[$pizza["pizza"]];
 
                 $totaalPrijs += $pizzaTotaal;
-
-                if ($_POST[$pizzaNaam] > 0) {
-                    echo "<p>Aantal: ".$_POST[$pizzaNaam]." $pizzaNaam: €".number_format($pizzaTotaal, 2, ",", ".")."</p>";
-                }
             } else {
-                $pizzaTotaal = $pizzaPrijs * $_POST[$pizzaNaam];
+                $pizzaTotaal = $pizza["prijs"] * $_POST[$pizza["pizza"]];
 
                 $totaalPrijs += $pizzaTotaal;
+            }
 
-                if ($_POST[$pizzaNaam] > 0) {
-                    echo "<p>Aantal: ".$_POST[$pizzaNaam]." $pizzaNaam: €".number_format($pizzaTotaal, 2, ",", ".")."</p>";
-                }
+            if ($_POST[$pizza["pizza"]] > 0) {
+                echo "<p>Aantal: ".$_POST[$pizzaNaam]." $pizzaNaam: €".number_format($pizzaTotaal, 2, ",", ".")."</p>";
             }
         }
 
@@ -82,6 +96,23 @@ function gegevens() {
     echo ("<p>Plaats: ".$_POST["plaats"]."</p>");
     echo ("<p>Bezorgdatum: $datum</p>");
     echo ("<p>Afhalen of bezorgen: ".$_POST["bezorgen"]."</p>");
+}
+
+function sendData() {
+    global $conn;
+
+    if (isset($_POST["keuze_opslaan"])) {
+        $naam = $_POST["naam"];
+        $adres = $_POST["adres"];
+        $postcode = $_POST["postcode"];
+        $plaats = $_POST["plaats"];
+        $datum = $_POST["datum"];
+        $bezorgen = $_POST["bezorgen"];
+
+        $sql = "INSERT INTO bestellingen (naam, adres, plaats, postcode, bezorgdatum, bezorgen) VALUES (?, ?, ?, ?, ?, ?)";
+        $stmt = $conn->prepare($sql);
+        $stmt->execute([$naam, $adres, $plaats, $postcode, $datum, $bezorgen]);
+    }
 }
 
 ?>

@@ -61,12 +61,14 @@
         </div>
     </form>
 
+    <?php sendData() ?>
+
     <div class="prijzen">
         <h2 class="containerTitel">Prijzenlijst:</h2>
 
         <div class="dag">
             <h2>Normale prijzen:</h2>
-            <?php normalePrijs(); ?>
+            <?php prijs() ?>
         </div>
 
         <div class="dag">
@@ -76,7 +78,7 @@
 
         <div class="dag">
             <h2>Prijzen op vrijdag:</h2>
-            <?php vrijdagPrijs(); ?>
+            <p>Alle pizza's hebben 15% korting!</p>
         </div>
     </div>
 </body>

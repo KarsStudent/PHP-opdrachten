@@ -6,13 +6,14 @@
     <title>Pizza dela Zoltar</title>
     <link rel="stylesheet" href="./stylesheets/bevestiging.css">
     <?php include "./phpsheets/bevestigingphp.php" ?>
+    <?php sendData() ?>
 </head>
 <body>
     <img src="./images/italie.png" alt="Vlag van Italië" class="vlagItalie">
 
     <div class="verwerkingsKader">
         <div class="bedankt">
-            <?php eenPizza() ?>
+            <?php //eenPizza() ?>
         </div>
         <div class="bestellingKader">
             <?php bestelling() ?>
