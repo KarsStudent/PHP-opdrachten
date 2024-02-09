@@ -3,11 +3,13 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Pizza dela Zoltar</title>
     <link rel="stylesheet" href="./stylesheets/index.css">
+    <title>Pizza dela Zoltar</title>
     <?php include "./phpsheets/indexphp.php" ?>
 </head>
 <body>
+    <a href="./inloggen.php" class="inloggen">inloggen</a>
+
     <form action="./bevestiging.php" method="post">
         <div class="pizzaContainer">
             <h1 class="titel">Bestellen:</h1>
@@ -60,8 +62,6 @@
             </div>
         </div>
     </form>
-
-    <?php sendData() ?>
 
     <div class="prijzen">
         <h2 class="containerTitel">Prijzenlijst:</h2>

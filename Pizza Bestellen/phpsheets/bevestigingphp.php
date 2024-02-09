@@ -1,22 +1,14 @@
 <?php
 
-$servername = "localhost";
-$dbname = "pizza bestellen";
-$username = "root";
-$password = "";
+include "./phpsheets/conn.php";
 
-try {
-    $conn = new PDO("mysql:host=$servername; dbname=$dbname", $username, $password);
-    $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-} catch(PDOException $e) {
-    echo "Connection failed: " . $e->getMessage();
-}
-
-$query = "SELECT `pizza naam`, prijs FROM pizza";
-
+$query = "SELECT * FROM pizza";
 $data = $conn->prepare($query);
 $data->execute(array());
 $pizzas = $data->fetchALL(PDO::FETCH_ASSOC);
+
+$query = "INSERT INTO gegevens (naam, adres, plaats, postcode, bezorgdatum, bezorgen) VALUES (?, ?, ?, ?, ?, ?)";
+$stmt = $conn->prepare($query);
 
 function eenPizza() {
     global $pizzas;
@@ -101,7 +93,8 @@ function gegevens() {
 }
 
 function sendData() {
-    global $conn;
+    global $stmt;
+    global $pizzas;
 
     if (isset($_POST["keuze_opslaan"])) {
         $naam = $_POST["naam"];
@@ -111,8 +104,6 @@ function sendData() {
         $datum = $_POST["datum"];
         $bezorgen = $_POST["bezorgen"];
 
-        $sql = "INSERT INTO bestellingen (naam, adres, plaats, postcode, bezorgdatum, bezorgen) VALUES (?, ?, ?, ?, ?, ?)";
-        $stmt = $conn->prepare($sql);
         $stmt->execute([$naam, $adres, $plaats, $postcode, $datum, $bezorgen]);
     }
 }

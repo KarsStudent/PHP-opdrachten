@@ -15,6 +15,13 @@ input {
     border-radius: 5px;
 }
 
+.inloggen {
+    display: flex;
+    justify-content: right;
+
+    margin: 5px;
+}
+
 .titel {
     background-color: rgba(255, 255, 255, 0.679);
     font-size: 300%;
@@ -67,6 +74,7 @@ input {
 
 .pizzaImage {
     width: 290px;
+    height: 200px;
 
     margin: 5px;
 }

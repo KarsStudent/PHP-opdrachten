@@ -6,7 +6,6 @@
     <title>Pizza dela Zoltar</title>
     <link rel="stylesheet" href="./stylesheets/bevestiging.css">
     <?php include "./phpsheets/bevestigingphp.php" ?>
-    <?php sendData() ?>
 </head>
 <body>
     <img src="./images/italie.png" alt="Vlag van Italië" class="vlagItalie">
@@ -24,5 +23,7 @@
     </div>
 
     <a href="./index.php"><button class="terugKnop">Terug</button></a>
+
+    <?php sendData() ?>
 </body>
 </html>
