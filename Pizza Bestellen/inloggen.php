@@ -8,18 +8,20 @@
     <?php include "./phpsheets/inloggenphp.php" ?>
 </head>
 <body>
-    <a href="./index.php" class="terug">Terug</a>
+    <nav>
+        <a href="./index.php" class="terug">Terug</a>
+    </nav>
 
     <div class="kader">
         <div class="inloggen">
-            <form action="./inloggen.php">
+            <form action="" method="POST">
                 <h1 class="titel">Log in:</h1><br>
                 <input type="text" placeholder="Gebruikersnaam" name="gebruikersnaam"><br>
                 <input type="password" placeholder="Wachtwoord" name="wachtwoord"><br>
                 <input type="submit" value="Inloggen" name="login">
             </form>
+            <?php gebruikersnaam() ?>
         </div>
     </div>
-    <?php gebruikersnaam() ?>
 </body>
 </html>

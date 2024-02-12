@@ -8,7 +8,9 @@
     <?php include "./phpsheets/indexphp.php" ?>
 </head>
 <body>
-    <a href="./inloggen.php" class="inloggen">inloggen</a>
+    <nav>
+        <a href="./inloggen.php" class="inloggen">inloggen</a>
+    </nav>
 
     <form action="./bevestiging.php" method="post">
         <div class="pizzaContainer">

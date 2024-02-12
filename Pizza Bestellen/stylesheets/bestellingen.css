@@ -11,7 +11,14 @@ body {
     background-size: 1520px;
 }
 
-.bestellingen {
+.uitloggen {
+    display: flex;
+    justify-content: right;
+
+    margin: 5px;
+}
+
+.bestellingen, .toevoegenPizza {
     outline: solid white 3px;
 
     display: flex;
@@ -19,7 +26,6 @@ body {
     justify-content: center;
 
     width: 98vw;
-
     max-width: 98%;
 
     margin: 1%;
@@ -32,7 +38,20 @@ body {
     width: 100%;
 }
 
-table, th, td {
+.formTitel {
+    font-size: 30px;
+}
+
+.tabel {
+    border: solid black 3px;
+    background-color: rgba(255, 255, 255, 0.679);
+    text-align: center;
+
+    margin: 5px;
+    padding: 5px;
+}
+
+th, td {
     border: solid black 3px;
     background-color: rgba(255, 255, 255, 0.679);
     text-align: center;

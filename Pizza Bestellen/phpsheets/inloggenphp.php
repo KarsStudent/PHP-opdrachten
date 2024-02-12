@@ -2,19 +2,21 @@
 
 include "./phpsheets/conn.php";
 
-$query = "SELECT * FROM gebruikers WHERE gebruikersnaam = `?`";
+$query = "SELECT gebruikersnaam, wachtwoord FROM gebruikers";
 $data = $conn->prepare($query);
 
 function gebruikersnaam() {
+    global $conn;
     global $data;
 
     if (isset($_POST["login"])) {
-        $gebruiker = $data->execute($_POST["gebruikersnaam"]);
+        $data->execute();
+        $gebruikers = $data->fetch(PDO::FETCH_ASSOC);
 
-        if ($_POST["gebruikersnaam"] == $gebruiker) {
-            echo "het bestaatttttttt yay";
+        if ($gebruikers["gebruikersnaam"] == $_POST["gebruikersnaam"] && $gebruikers["wachtwoord"] == $_POST["wachtwoord"]) {
+            header("Location: bestellingen.php");
         } else {
-            echo "bestaat niet ;(";
+            echo "<p class='error'>Gebruikersnaam of wachtwoord onjuist!</p>";
         }
     }
 }
