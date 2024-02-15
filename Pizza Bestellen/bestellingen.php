@@ -25,8 +25,8 @@
                     <th>Plaats</th>
                     <th>Postcode</th>
                     <th>Bezorgdatum</th>
-                    <th>Bestelling</th>
                     <th>Bezorgen</th>
+                    <th>Bestelling</th>
                     <th>Te betalen</th>
                 </tr>
                 <?php bestellingen() ?>

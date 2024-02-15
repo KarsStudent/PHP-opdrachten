@@ -7,7 +7,7 @@ $data = $conn->prepare($query);
 $data->execute(array());
 $pizzas = $data->fetchALL(PDO::FETCH_ASSOC);
 
-$query = "INSERT INTO gegevens (naam, adres, plaats, postcode, bezorgdatum, bezorgen) VALUES (?, ?, ?, ?, ?, ?)";
+$query = "INSERT INTO bestellingen (naam, adres, plaats, postcode, bezorgdatum, bezorgen) VALUES (?, ?, ?, ?, ?, ?)";
 $stmt = $conn->prepare($query);
 
 function eenPizza() {
@@ -104,6 +104,19 @@ function sendData() {
         $datum = $_POST["datum"];
         $bezorgen = $_POST["bezorgen"];
 
+        foreach ($pizzas as $pizza) {
+            $bestelling = array();
+            array_push($bestelling, $pizza["pizza naam"]);
+
+            //$bestelling = "";
+            //$bestelling += $pizza["pizza naam"];
+        }
+
+        echo implode(" ", $bestelling);
+        echo "<br>";
+        var_dump($bestelling);
+
+        //$stmt->execute([$naam, $adres, $plaats, $postcode, $datum, $bezorgen]);
         $stmt->execute([$naam, $adres, $plaats, $postcode, $datum, $bezorgen]);
     }
 }
