@@ -23,7 +23,5 @@
     </div>
 
     <a href="./index.php"><button class="terugKnop">Terug</button></a>
-
-    <?php sendData() ?>
 </body>
 </html>

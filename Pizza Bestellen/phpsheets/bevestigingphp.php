@@ -7,9 +7,6 @@ $data = $conn->prepare($query);
 $data->execute(array());
 $pizzas = $data->fetchALL(PDO::FETCH_ASSOC);
 
-$query = "INSERT INTO bestellingen (naam, adres, plaats, postcode, bezorgdatum, bezorgen) VALUES (?, ?, ?, ?, ?, ?)";
-$stmt = $conn->prepare($query);
-
 function eenPizza() {
     global $pizzas;
 
@@ -90,35 +87,6 @@ function gegevens() {
     echo ("<p>Plaats: " . $_POST["plaats"] . "</p>");
     echo ("<p>Bezorgdatum: $datum</p>");
     echo ("<p>Afhalen of bezorgen: " . $_POST["bezorgen"] . "</p>");
-}
-
-function sendData() {
-    global $stmt;
-    global $pizzas;
-
-    if (isset($_POST["keuze_opslaan"])) {
-        $naam = $_POST["naam"];
-        $adres = $_POST["adres"];
-        $postcode = $_POST["postcode"];
-        $plaats = $_POST["plaats"];
-        $datum = $_POST["datum"];
-        $bezorgen = $_POST["bezorgen"];
-
-        foreach ($pizzas as $pizza) {
-            $bestelling = array();
-            array_push($bestelling, $pizza["pizza naam"]);
-
-            //$bestelling = "";
-            //$bestelling += $pizza["pizza naam"];
-        }
-
-        echo implode(" ", $bestelling);
-        echo "<br>";
-        var_dump($bestelling);
-
-        //$stmt->execute([$naam, $adres, $plaats, $postcode, $datum, $bezorgen]);
-        $stmt->execute([$naam, $adres, $plaats, $postcode, $datum, $bezorgen]);
-    }
 }
 
 ?>

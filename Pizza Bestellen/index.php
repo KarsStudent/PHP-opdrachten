@@ -12,7 +12,7 @@
         <a href="./inloggen.php" class="inloggen">inloggen</a>
     </nav>
 
-    <form action="./bevestiging.php" method="post">
+    <form action="" method="post">
         <div class="pizzaContainer">
             <h1 class="titel">Bestellen:</h1>
 
@@ -83,5 +83,7 @@
             <p>Alle pizza's hebben 15% korting!</p>
         </div>
     </div>
+
+    <?php sendData() ?>
 </body>
 </html>
