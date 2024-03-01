@@ -6,6 +6,7 @@
     <link rel="stylesheet" href="./stylesheets/index.css">
     <title>Pizza dela Zoltar</title>
     <?php include "./phpsheets/indexphp.php" ?>
+    <?php sendData() ?>
 </head>
 <body>
     <nav>
@@ -83,7 +84,5 @@
             <p>Alle pizza's hebben 15% korting!</p>
         </div>
     </div>
-
-    <?php sendData() ?>
 </body>
 </html>

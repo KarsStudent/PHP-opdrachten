@@ -2,11 +2,10 @@
 
 include "./phpsheets/conn.php";
 
-$query = "SELECT gebruikersnaam, wachtwoord FROM gebruikers";
+$query = "SELECT naam, wachtwoord FROM gebruikers";
 $data = $conn->prepare($query);
 
 function gebruikersnaam() {
-    global $conn;
     global $data;
 
     if (isset($_POST["login"])) {
