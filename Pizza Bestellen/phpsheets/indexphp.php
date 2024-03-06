@@ -7,8 +7,14 @@ $data = $conn->prepare($query);
 $data->execute(array());
 $pizzas = $data->fetchALL(PDO::FETCH_ASSOC);
 
-$query = "INSERT INTO bestellingen (naam, adres, plaats, postcode, bezorgdatum, bezorgen) VALUES (?, ?, ?, ?, ?, ?)";
+$query = "INSERT INTO gebruikers (naam, adres, plaats, postcode) VALUES (?, ?, ?, ?)";
 $stmt = $conn->prepare($query);
+
+$query = "SELECT ? FROM order_regels";
+$data = $conn->prepare($query);
+
+$query = "ALTER TABLE order_regels ADD ? INT(2)";
+$addColumn = $conn->prepare($query);
 
 function displayPizza() {
     global $pizzas;
@@ -54,9 +60,24 @@ function sendData() {
         }
 
         if ($aantalPizzas > 0) {
-            $stmt->execute([$naam, $adres, $plaats, $postcode, $datum, $bezorgen]);
+            $stmt->execute([$naam, $adres, $plaats, $postcode]);
 
             header("Location: bevestiging.php");
+        }
+    }
+}
+
+function columns() {
+    global $data;
+    global $pizzas;
+    global $addColumn;
+
+    foreach($pizzas as $pizza) {
+        $data->execute([$pizza]);
+        $exists = $data->fetchColumn() !== false;
+
+        if($exists) {
+            $addColumn->execute([$pizza]);
         }
     }
 }

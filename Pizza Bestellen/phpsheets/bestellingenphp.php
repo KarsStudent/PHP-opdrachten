@@ -2,7 +2,7 @@
 
 include "./phpsheets/conn.php";
 
-$query = "SELECT * FROM bestellingen ORDER BY bestelling_id DESC LIMIT 10";
+$query = "SELECT * FROM orders ORDER BY order_id DESC LIMIT 10";
 $data = $conn->prepare($query);
 $data->execute(array());
 $gegevens = $data->fetchALL(PDO::FETCH_ASSOC);
@@ -12,7 +12,7 @@ function bestellingen() {
 
     foreach ($gegevens as $gegeven) {
         echo "<tr>";
-        echo "<td>" . $gegeven["bestelling_id"] . "</td>";
+        echo "<td>" . $gegeven["order_id"] . "</td>";
         echo "<td>" . $gegeven["naam"] . "</td>";
         echo "<td>" . $gegeven["adres"] . "</td>";
         echo "<td>" . $gegeven["plaats"] . "</td>";

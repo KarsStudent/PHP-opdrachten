@@ -2,7 +2,7 @@
 
 include "./phpsheets/conn.php";
 
-$query = "SELECT naam, wachtwoord FROM gebruikers";
+$query = "SELECT gebruikersnaam, wachtwoord FROM gebruikers";
 $data = $conn->prepare($query);
 
 function gebruikersnaam() {
