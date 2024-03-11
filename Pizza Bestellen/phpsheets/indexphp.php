@@ -10,11 +10,8 @@ $pizzas = $data->fetchALL(PDO::FETCH_ASSOC);
 $query = "INSERT INTO gebruikers (naam, adres, plaats, postcode) VALUES (?, ?, ?, ?)";
 $stmt = $conn->prepare($query);
 
-$query = "SELECT ? FROM order_regels";
-$data = $conn->prepare($query);
-
-$query = "ALTER TABLE order_regels ADD ? INT(2)";
-$addColumn = $conn->prepare($query);
+$query = "SELECT naam FROM gebruikers WHERE naam = :naam";
+$something = $conn->prepare($query);
 
 function displayPizza() {
     global $pizzas;
@@ -42,6 +39,7 @@ function prijs() {
 function sendData() {
     global $stmt;
     global $pizzas;
+    global $something;
 
     if (isset($_POST["keuze_opslaan"])) {
         $aantalPizzas = 0;
@@ -53,31 +51,18 @@ function sendData() {
         $datum = $_POST["datum"];
         $bezorgen = $_POST["bezorgen"];
 
-        foreach ($pizzas as $pizza) {
-            $pizzaKey = str_replace(" ", "_", $pizza["pizza naam"]);
-
-            $aantalPizzas += $_POST[$pizzaKey];
-        }
+        $something->bindParam(':naam', $naam, PDO::PARAM_STR);
+        $something->execute();
+        $userExists = $something->rowCount() > 0;
 
         if ($aantalPizzas > 0) {
-            $stmt->execute([$naam, $adres, $plaats, $postcode]);
+            if (!$userExists) {
+                $stmt->execute([$naam, $adres, $plaats, $postcode]);
 
-            header("Location: bevestiging.php");
-        }
-    }
-}
-
-function columns() {
-    global $data;
-    global $pizzas;
-    global $addColumn;
-
-    foreach($pizzas as $pizza) {
-        $data->execute([$pizza]);
-        $exists = $data->fetchColumn() !== false;
-
-        if($exists) {
-            $addColumn->execute([$pizza]);
+                header("Location: bevestiging.php");
+            }
+        } elseif ($aantalPizzas > 0) {
+             
         }
     }
 }

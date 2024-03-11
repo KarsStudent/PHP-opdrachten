@@ -7,7 +7,6 @@
     <title>Pizza dela Zoltar</title>
     <?php include "./phpsheets/indexphp.php" ?>
     <?php sendData() ?>
-    <?php columns() ?>
 </head>
 <body>
     <nav>
@@ -28,7 +27,7 @@
                 <div>
                     <br>
                     <label for="naam">Naam:</label><br>
-                    <input type="text" placeholder="Naam" id="naam" name="naam" maxlength="10" required><br><br>
+                    <input type="text" placeholder="Naam" id="naam" name="naam" maxlength="20" required><br><br>
                 </div>
                 <div>
                     <label for="adres">Adres:</label><br>
