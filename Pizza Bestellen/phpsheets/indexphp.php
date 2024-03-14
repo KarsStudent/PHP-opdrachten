@@ -11,7 +11,13 @@ $query = "INSERT INTO gebruikers (naam, adres, plaats, postcode) VALUES (?, ?, ?
 $stmt = $conn->prepare($query);
 
 $query = "SELECT naam FROM gebruikers WHERE naam = :naam";
-$something = $conn->prepare($query);
+$fetchNaam = $conn->prepare($query);
+
+$query = "INSERT INTO order_regels (pizza_id, aantal) VALUES (?, ?)";
+$insertOrder = $conn->prepare($query);
+
+$query = "SELECT pizza_id FROM pizza WHERE `pizza naam` = :pizza_naam";
+$pizzaID = $conn->prepare($query);
 
 function displayPizza() {
     global $pizzas;
@@ -38,6 +44,9 @@ function sendData() {
     global $stmt;
     global $pizzas;
     global $something;
+    global $fetchNaam;
+    global $insertOrder;
+    global $pizzaID;
 
     if (isset($_POST["keuze_opslaan"])) {
         $aantalPizzas = 0;
@@ -55,13 +64,25 @@ function sendData() {
             $aantalPizzas += $_POST[$pizzaKey];
         }
 
-        $something->bindParam(":naam", $naam);
-        $something->execute();
-        $something = $something->fetch(PDO::FETCH_ASSOC);
+        $fetchNaam->bindParam(":naam", $naam);
+        $fetchNaam->execute();
+        $fetchNaam = $fetchNaam->fetch(PDO::FETCH_ASSOC);
 
         if ($aantalPizzas > 0) {
-            if (!$something) {
+            if (!$fetchNaam) {
                 $stmt->execute([$naam, $adres, $plaats, $postcode]);
+
+                foreach ($pizzas as $pizza) {
+                    $pizzaKey = str_replace(" ", "_", $pizza["pizza naam"]);
+
+                    $pizzaID->bindParam(":pizza_naam", $pizzaKey);
+                    $pizzaID->execute();
+                    $pizzaID = $pizzaID->fetchColumn();
+
+                    $pizzaNaam = $_POST[$pizzaKey];
+
+                    $insertOrder->execute([$pizzaID, $pizzaNaam]);
+                }
 
                 header("Location: bevestiging.php");
             }
