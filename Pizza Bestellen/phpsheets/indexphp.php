@@ -29,8 +29,6 @@ function displayPizza() {
 function prijs() {
     global $pizzas;
 
-    $query = "SELECT * FROM pizza";
-
     foreach ($pizzas as $pizza) {
         echo "<p>" . $pizza["pizza naam"] . ": €" . number_format($pizza["prijs"], 2, ",", ".") . "</p>";
     }
@@ -44,25 +42,29 @@ function sendData() {
     if (isset($_POST["keuze_opslaan"])) {
         $aantalPizzas = 0;
 
-        $naam = $_POST["naam"];
-        $adres = $_POST["adres"];
-        $postcode = $_POST["postcode"];
-        $plaats = $_POST["plaats"];
-        $datum = $_POST["datum"];
-        $bezorgen = $_POST["bezorgen"];
+        $naam = htmlspecialchars($_POST["naam"]);
+        $adres = htmlspecialchars($_POST["adres"]);
+        $postcode = htmlspecialchars($_POST["postcode"]);
+        $plaats = htmlspecialchars($_POST["plaats"]);
+        $datum = htmlspecialchars($_POST["datum"]);
+        $bezorgen = htmlspecialchars($_POST["bezorgen"]);
 
-        $something->bindParam(':naam', $naam, PDO::PARAM_STR);
+        foreach ($pizzas as $pizza) {
+            $pizzaKey = str_replace(" ", "_", $pizza["pizza naam"]);
+
+            $aantalPizzas += $_POST[$pizzaKey];
+        }
+
+        $something->bindParam(":naam", $naam);
         $something->execute();
-        $userExists = $something->rowCount() > 0;
+        $something = $something->fetch(PDO::FETCH_ASSOC);
 
         if ($aantalPizzas > 0) {
-            if (!$userExists) {
+            if (!$something) {
                 $stmt->execute([$naam, $adres, $plaats, $postcode]);
 
                 header("Location: bevestiging.php");
             }
-        } elseif ($aantalPizzas > 0) {
-             
         }
     }
 }
