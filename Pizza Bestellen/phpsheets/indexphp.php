@@ -7,8 +7,8 @@ try {
     $data = $conn->prepare($query);
     $data->execute(array());
     $pizzas = $data->fetchALL(PDO::FETCH_ASSOC);
-} catch(PDOException $e) {
-    echo $sql . "<br>" . $e->getMessage();
+} catch (PDOException $e) {
+    echo $query . "<br>" . $e->getMessage();
 }
 
 function displayPizza() {
@@ -57,49 +57,88 @@ function sendData() {
 
         if ($aantalPizzas > 0) {
             try {
-                $query = "SELECT naam FROM gebruikers WHERE naam = :naam";
+                $query = "SELECT gebruikers_id, naam FROM gebruikers WHERE naam = :naam";
                 $fetchNaam = $conn->prepare($query);
                 $fetchNaam->bindParam(":naam", $naam);
                 $fetchNaam->execute();
                 $fetchNaam = $fetchNaam->fetch(PDO::FETCH_ASSOC);
-            } catch(PDOException $e) {
-                echo $sql . "<br>" . $e->getMessage();
+            } catch (PDOException $e) {
+                echo $query . "<br>" . $e->getMessage();
             }
-            
+
+            try {
+                $query = "INSERT INTO gebruikers (naam, adres, plaats, postcode) VALUES (?, ?, ?, ?)";
+                $insertGebruiker = $conn->prepare($query);
+
+                $query = "INSERT INTO orders (gebruikers_id, besteldatum, bezorgen) VALUES (?, ?, ?)";
+                $insertOrder = $conn->prepare($query);
+
+                $query = "SELECT pizza_id FROM pizza WHERE `pizza naam` = :pizza_naam";
+                $pizzaID = $conn->prepare($query);
+
+                $query = "INSERT INTO order_regels (order_id, pizza_id, aantal) VALUES (?, ?, ?)";
+                $insertOrderRegel = $conn->prepare($query);
+            } catch (PDOException $e) {
+                echo $query . "<br>" . $e->getMessage();
+            }
+
             if (!$fetchNaam) {
                 try {
-                    $query = "INSERT INTO gebruikers (naam, adres, plaats, postcode) VALUES (?, ?, ?, ?)";
-                    $insertGebruiker = $conn->prepare($query);
                     $insertGebruiker->execute([$naam, $adres, $plaats, $postcode]);
-    
+
                     $gebruikersID = $conn->lastInsertId();
-    
-                    $query = "INSERT INTO orders (gebruikers_id, besteldatum, bezorgen) VALUES (?, ?, ?)";
-                    $insertOrder = $conn->prepare($query);
+
                     $insertOrder->execute([$gebruikersID, $datum, $bezorgen]);
-    
+
                     $orderID = $conn->lastInsertId();
-                } catch(PDOException $e) {
-                    echo $sql . "<br>" . $e->getMessage();
+                } catch (PDOException $e) {
+                    echo $query . "<br>" . $e->getMessage();
                 }
 
                 foreach ($pizzas as $pizza) {
                     $pizzaKey = str_replace(" ", "_", $pizza["pizza naam"]);
 
-                    $hoeveelheid = $_POST[$pizzaKey];
+                    $aantal = $_POST[$pizzaKey];
 
                     if ($_POST[$pizzaKey] > 0) {
                         try {
-                            $pizzaID = $conn->prepare("SELECT pizza_id FROM pizza WHERE `pizza naam` = :pizza_naam");
-                            $pizzaID->bindParam(":pizza_naam", $pizza["pizza naam"]);
+                            $pizzaID->bindParam(":pizza_naam", $pizza["pizza naam"], PDO::PARAM_STR);
                             $pizzaID->execute();
-                            $pizzaID = $pizzaID->fetchColumn();
-    
-                            $query = "INSERT INTO order_regels (order_id, pizza_id, aantal) VALUES (?, ?, ?)";
-                            $insertOrderRegel = $conn->prepare($query);
-                            $insertOrderRegel->execute([$orderID, $pizzaID, $hoeveelheid]);
-                        } catch(PDOException $e) {
-                            echo $sql . "<br>" . $e->getMessage();
+                            $pizzaID_value = $pizzaID->fetchColumn();
+
+                            $insertOrderRegel->execute([$orderID, $pizzaID_value, $aantal]);
+                        } catch (PDOException $e) {
+                            echo $query . "<br>" . $e->getMessage();
+                        }
+                    }
+                }
+
+                //header("Location: bevestiging.php");
+            } elseif ($fetchNaam) {
+                $gebruikersID = $fetchNaam["gebruikers_id"];
+
+                try {
+                    $insertOrder->execute([$gebruikersID, $datum, $bezorgen]);
+
+                    $orderID = $conn->lastInsertId();
+                } catch (PDOException $e) {
+                    echo $query . "<br>" . $e->getMessage();
+                }
+
+                foreach ($pizzas as $pizza) {
+                    $pizzaKey = str_replace(" ", "_", $pizza["pizza naam"]);
+
+                    $aantal = $_POST[$pizzaKey];
+
+                    if ($_POST[$pizzaKey] > 0) {
+                        try {
+                            $pizzaID->bindParam(":pizza_naam", $pizza["pizza naam"], PDO::PARAM_STR);
+                            $pizzaID->execute();
+                            $pizzaID_value = $pizzaID->fetchColumn();
+
+                            $insertOrderRegel->execute([$orderID, $pizzaID_value, $aantal]);
+                        } catch (PDOException $e) {
+                            echo $query . "<br>" . $e->getMessage();
                         }
                     }
                 }
