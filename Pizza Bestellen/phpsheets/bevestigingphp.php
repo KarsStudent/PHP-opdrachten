@@ -2,12 +2,21 @@
 
 include "./phpsheets/conn.php";
 
-$query = "SELECT * FROM pizza";
-$data = $conn->prepare($query);
-$data->execute(array());
-$pizzas = $data->fetchALL(PDO::FETCH_ASSOC);
+try {
+    $query = "SELECT * FROM pizza";
+    $pizzas = $conn->prepare($query);
+    $pizzas->execute(array());
+    $pizzas = $pizzas->fetchALL(PDO::FETCH_ASSOC);
 
-function eenPizza() {
+    $query = "SELECT orders.order_id, gebruikers.naam, gebruikers.adres, gebruikers.plaats, gebruikers.postcode, orders.bezorgdatum, orders.bezorgen FROM orders INNER JOIN gebruikers ON orders.gebruikers_id = gebruikers.gebruikers_id WHERE orders.order_id = (SELECT MAX(order_id) FROM orders)";
+    $fetchOrderDetails = $conn->prepare($query);
+    $fetchOrderDetails->execute(array());
+    $fetchOrderDetails = $fetchOrderDetails->fetch(PDO::FETCH_ASSOC);
+} catch (PDOException $e) {
+    echo $query . "<br>" . $e->getMessage();
+}
+
+/*function eenPizza() {
     global $pizzas;
 
     if (isset($_POST["keuze_opslaan"])) {
@@ -31,62 +40,60 @@ function eenPizza() {
             echo "<h1>Bedankt voor uw bestelling!</h1>";
         }
     }
-}
+}*/
 
 function bestelling() {
     global $pizzas;
 
-    if (isset($_POST["keuze_opslaan"])) {
-        $aantalPizzas = 0;
-        $totaalPrijs = 0;
+    $aantalPizzas = 0;
+    $totaalPrijs = 0;
 
-        $datum = strtotime($_POST["datum"]);
-        $dag = date("l", $datum);
+    $datum = strtotime($_POST["datum"]);
+    $dag = date("l", $datum);
 
-        echo ("<h2>Bestelling:</h2>");
+    echo ("<h2>Bestelling:</h2>");
 
-        foreach ($pizzas as $pizza) {
-            $pizzaKey = str_replace(" ", "_", $pizza["pizza naam"]);
+    foreach ($pizzas as $pizza) {
+        $pizzaKey = str_replace(" ", "_", $pizza["pizza naam"]);
 
-            if ($dag == "Monday") {
-                $pizzaTotaal = 7.50 * $_POST[$pizzaKey];
+        if ($dag == "Monday") {
+            $pizzaTotaal = 7.50 * $_POST[$pizzaKey];
 
-                $totaalPrijs += $pizzaTotaal;
-            } else if ($dag == "Friday") {
-                $pizzaTotaal = $pizza["prijs"] * 0.85 * $_POST[$pizzaKey];
+            $totaalPrijs += $pizzaTotaal;
+        } else if ($dag == "Friday") {
+            $pizzaTotaal = $pizza["prijs"] * 0.85 * $_POST[$pizzaKey];
 
-                $totaalPrijs += $pizzaTotaal;
-            } else {
-                $pizzaTotaal = $pizza["prijs"] * $_POST[$pizzaKey];
+            $totaalPrijs += $pizzaTotaal;
+        } else {
+            $pizzaTotaal = $pizza["prijs"] * $_POST[$pizzaKey];
 
-                $totaalPrijs += $pizzaTotaal;
-            }
-
-            if ($_POST[$pizzaKey] > 0) {
-                echo "<p>Aantal: " . $_POST[$pizzaKey] . " " . $pizza["pizza naam"] . ": €" . number_format($pizzaTotaal, 2, ",", ".") . "</p>";
-            }
+            $totaalPrijs += $pizzaTotaal;
         }
 
-        if ($_POST["bezorgen"] == "Bezorgen") {
-            $totaalPrijs += 5;
-
-            echo "Bezorg kosten: €5,00";
+        if ($_POST[$pizzaKey] > 0) {
+            echo "<p>Aantal: " . $_POST[$pizzaKey] . " " . $pizza["pizza naam"] . ": €" . number_format($pizzaTotaal, 2, ",", ".") . "</p>";
         }
-
-        echo ("<p class='totaal'>Totaal: €" . number_format($totaalPrijs, 2, ",", ".") . "</p>");
     }
+
+    if ($_POST["bezorgen"] == "Bezorgen") {
+        $totaalPrijs += 5;
+
+        echo "Bezorg kosten: €5,00";
+    }
+
+    echo ("<p class='totaal'>Totaal: €" . number_format($totaalPrijs, 2, ",", ".") . "</p>");
 }
 
 function gegevens() {
-    $datum = str_replace("T", " ", $_POST["datum"]);
+    global $fetchOrderDetails;
 
     echo ("<h2>Gegevens:</h2>");
-    echo ("<p>Naam: " . $_POST["naam"] . "</p>");
-    echo ("<p>Adres: " . $_POST["adres"] . "</p>");
-    echo ("<p>Postcode: " . $_POST["postcode"] . "</p>");
-    echo ("<p>Plaats: " . $_POST["plaats"] . "</p>");
-    echo ("<p>Bezorgdatum: $datum</p>");
-    echo ("<p>Afhalen of bezorgen: " . $_POST["bezorgen"] . "</p>");
+    echo ("<p>Naam: " . $fetchOrderDetails["naam"] . "</p>");
+    echo ("<p>Adres: " . $fetchOrderDetails["adres"] . "</p>");
+    echo ("<p>Postcode: " . $fetchOrderDetails["postcode"] . "</p>");
+    echo ("<p>Plaats: " . $fetchOrderDetails["plaats"] . "</p>");
+    echo ("<p>Bezorgdatum: " . $fetchOrderDetails["bezorgdatum"] . "</p>");
+    echo ("<p>Afhalen of bezorgen: " . $fetchOrderDetails["bezorgen"] . "</p>");
 }
 
 ?>

@@ -2,23 +2,23 @@
 
 include "./phpsheets/conn.php";
 
-$query = "SELECT * FROM orders ORDER BY order_id DESC LIMIT 10";
-$data = $conn->prepare($query);
-$data->execute(array());
-$gegevens = $data->fetchALL(PDO::FETCH_ASSOC);
+$query = "SELECT orders.order_id, gebruikers.naam, gebruikers.adres, gebruikers.plaats, gebruikers.postcode, orders.bezorgdatum, orders.bezorgen FROM orders INNER JOIN gebruikers ON orders.gebruikers_id=gebruikers.gebruikers_id";
+$fetchOrderDetails = $conn->prepare($query);
+$fetchOrderDetails->execute(array());
+$fetchOrderDetails = $data->fetchALL(PDO::FETCH_ASSOC);
 
 function bestellingen() {
-    global $gegevens;
+    global $fetchOrderDetails;
 
-    foreach ($gegevens as $gegeven) {
+    foreach ($fetchOrderDetails as $fetchOrderDetails) {
         echo "<tr>";
-        echo "<td>" . $gegeven["order_id"] . "</td>";
-        echo "<td>" . $gegeven["naam"] . "</td>";
-        echo "<td>" . $gegeven["adres"] . "</td>";
-        echo "<td>" . $gegeven["plaats"] . "</td>";
-        echo "<td>" . $gegeven["postcode"] . "</td>";
-        echo "<td>" . $gegeven["bezorgdatum"] . "</td>";
-        echo "<td>" . $gegeven["bezorgen"] . "</td>";
+        echo "<td>" . $fetchOrderDetails["order_id"] . "</td>";
+        echo "<td>" . $fetchOrderDetails["naam"] . "</td>";
+        echo "<td>" . $fetchOrderDetails["adres"] . "</td>";
+        echo "<td>" . $fetchOrderDetails["plaats"] . "</td>";
+        echo "<td>" . $fetchOrderDetails["postcode"] . "</td>";
+        echo "<td>" . $fetchOrderDetails["bezorgdatum"] . "</td>";
+        echo "<td>" . $fetchOrderDetails["bezorgen"] . "</td>";
         echo "<td>Geen waarde</td>";
         echo "<td>Geen waarde</td>";
         echo "</tr>";

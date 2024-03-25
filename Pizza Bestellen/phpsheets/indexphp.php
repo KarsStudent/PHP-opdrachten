@@ -4,9 +4,9 @@ include "./phpsheets/conn.php";
 
 try {
     $query = "SELECT * FROM pizza";
-    $data = $conn->prepare($query);
-    $data->execute(array());
-    $pizzas = $data->fetchALL(PDO::FETCH_ASSOC);
+    $pizzas = $conn->prepare($query);
+    $pizzas->execute(array());
+    $pizzas = $pizzas->fetchALL(PDO::FETCH_ASSOC);
 } catch (PDOException $e) {
     echo $query . "<br>" . $e->getMessage();
 }
@@ -62,15 +62,11 @@ function sendData() {
                 $fetchNaam->bindParam(":naam", $naam);
                 $fetchNaam->execute();
                 $fetchNaam = $fetchNaam->fetch(PDO::FETCH_ASSOC);
-            } catch (PDOException $e) {
-                echo $query . "<br>" . $e->getMessage();
-            }
 
-            try {
                 $query = "INSERT INTO gebruikers (naam, adres, plaats, postcode) VALUES (?, ?, ?, ?)";
                 $insertGebruiker = $conn->prepare($query);
 
-                $query = "INSERT INTO orders (gebruikers_id, besteldatum, bezorgen) VALUES (?, ?, ?)";
+                $query = "INSERT INTO orders (gebruikers_id, bezorgdatum, bezorgen) VALUES (?, ?, ?)";
                 $insertOrder = $conn->prepare($query);
 
                 $query = "SELECT pizza_id FROM pizza WHERE `pizza naam` = :pizza_naam";
@@ -94,26 +90,6 @@ function sendData() {
                 } catch (PDOException $e) {
                     echo $query . "<br>" . $e->getMessage();
                 }
-
-                foreach ($pizzas as $pizza) {
-                    $pizzaKey = str_replace(" ", "_", $pizza["pizza naam"]);
-
-                    $aantal = $_POST[$pizzaKey];
-
-                    if ($_POST[$pizzaKey] > 0) {
-                        try {
-                            $pizzaID->bindParam(":pizza_naam", $pizza["pizza naam"], PDO::PARAM_STR);
-                            $pizzaID->execute();
-                            $pizzaID_value = $pizzaID->fetchColumn();
-
-                            $insertOrderRegel->execute([$orderID, $pizzaID_value, $aantal]);
-                        } catch (PDOException $e) {
-                            echo $query . "<br>" . $e->getMessage();
-                        }
-                    }
-                }
-
-                //header("Location: bevestiging.php");
             } elseif ($fetchNaam) {
                 $gebruikersID = $fetchNaam["gebruikers_id"];
 
@@ -124,27 +100,26 @@ function sendData() {
                 } catch (PDOException $e) {
                     echo $query . "<br>" . $e->getMessage();
                 }
+            }
 
-                foreach ($pizzas as $pizza) {
-                    $pizzaKey = str_replace(" ", "_", $pizza["pizza naam"]);
+            foreach ($pizzas as $pizza) {
+                $pizzaKey = str_replace(" ", "_", $pizza["pizza naam"]);
 
-                    $aantal = $_POST[$pizzaKey];
+                $aantal = $_POST[$pizzaKey];
 
-                    if ($_POST[$pizzaKey] > 0) {
-                        try {
-                            $pizzaID->bindParam(":pizza_naam", $pizza["pizza naam"], PDO::PARAM_STR);
-                            $pizzaID->execute();
-                            $pizzaID_value = $pizzaID->fetchColumn();
+                if ($aantal > 0) {
+                    try {
+                        $pizzaID->bindParam(":pizza_naam", $pizza["pizza naam"], PDO::PARAM_STR);
+                        $pizzaID->execute();
+                        $pizzaID_value = $pizzaID->fetchColumn();
 
-                            $insertOrderRegel->execute([$orderID, $pizzaID_value, $aantal]);
-                        } catch (PDOException $e) {
-                            echo $query . "<br>" . $e->getMessage();
-                        }
+                        $insertOrderRegel->execute([$orderID, $pizzaID_value, $aantal]);
+                    } catch (PDOException $e) {
+                        echo $query . "<br>" . $e->getMessage();
                     }
                 }
-
-                //header("Location: bevestiging.php");
             }
+            header('Location: ./bevestiging.php');
         }
     }
 }
