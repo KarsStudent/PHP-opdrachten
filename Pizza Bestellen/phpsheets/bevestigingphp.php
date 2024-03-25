@@ -46,43 +46,33 @@ function bestelling() {
     global $pizzas;
     global $fetchOrderDetails;
 
-    $aantalPizzas = 0;
-    $totaalPrijs = 0;
+    session_start();
 
-    $datum = strtotime($fetchOrderDetails["bezorgdatum"]);
-    $dag = date("l", $datum);
-
-    echo ("<h2>Bestelling:</h2>");
-
-    foreach ($pizzas as $pizza) {
-        $pizzaKey = str_replace(" ", "_", $pizza["pizza naam"]);
-
-        /*if ($dag == "Monday") {
-            $pizzaTotaal = 7.50 * $_POST[$pizzaKey];
-
-            $totaalPrijs += $pizzaTotaal;
-        } else if ($dag == "Friday") {
-            $pizzaTotaal = $pizza["prijs"] * 0.85 * $_POST[$pizzaKey];
-
-            $totaalPrijs += $pizzaTotaal;
-        } else {
-            $pizzaTotaal = $pizza["prijs"] * $_POST[$pizzaKey];
-
-            $totaalPrijs += $pizzaTotaal;
-        }*/
-
-        if ($pizza["pizza naam"] > 0) {
-            echo "<p>Aantal: " . $_SESSION[$pizzaKey] . " " . $pizza["pizza naam"] . ": €" . number_format($_SESSION[$pizzaKey], 2, ",", ".") . "</p>";
+    if (isset($_SESSION["keuze_opslaan"])) {
+        $aantalPizzas = 0;
+        $totaalPrijs = 0;
+    
+        $datum = strtotime($fetchOrderDetails["bezorgdatum"]);
+        $dag = date("l", $datum);
+    
+        echo ("<h2>Bestelling:</h2>");
+    
+        foreach ($pizzas as $pizza) {
+            $pizzaKey = str_replace(" ", "_", $pizza["pizza naam"]);
+    
+            if ($_SESSION["aantal: $pizzaKey"] > 0) {
+                echo "<p>Aantal: " . $_SESSION["aantal: $pizzaKey"] . " " . $pizza["pizza naam"] . ": €" . number_format($_SESSION["pizzaPrice: $pizzaKey"], 2, ",", ".") . "</p>";
+            }
         }
+    
+        if ($_SESSION["bezorgen"] == "Bezorgen") {
+            $_SESSION["totalPrice"] += 5;
+    
+            echo "Bezorg kosten: €5,00";
+        }
+    
+        echo ("<p class='totaal'>Totaal: €" . number_format($_SESSION["totalPrice"], 2, ",", ".") . "</p>");
     }
-
-    if ($_POST["bezorgen"] == "Bezorgen") {
-        $totaalPrijs += 5;
-
-        echo "Bezorg kosten: €5,00";
-    }
-
-    echo ("<p class='totaal'>Totaal: €" . number_format($totaalPrijs, 2, ",", ".") . "</p>");
 }
 
 function gegevens() {
