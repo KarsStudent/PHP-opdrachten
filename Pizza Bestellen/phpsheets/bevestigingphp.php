@@ -16,7 +16,7 @@ try {
     echo $query . "<br>" . $e->getMessage();
 }
 
-/*function eenPizza() {
+function eenPizza() {
     global $pizzas;
 
     if (isset($_POST["keuze_opslaan"])) {
@@ -40,15 +40,16 @@ try {
             echo "<h1>Bedankt voor uw bestelling!</h1>";
         }
     }
-}*/
+}
 
 function bestelling() {
     global $pizzas;
+    global $fetchOrderDetails;
 
     $aantalPizzas = 0;
     $totaalPrijs = 0;
 
-    $datum = strtotime($_POST["datum"]);
+    $datum = strtotime($fetchOrderDetails["bezorgdatum"]);
     $dag = date("l", $datum);
 
     echo ("<h2>Bestelling:</h2>");
@@ -56,7 +57,7 @@ function bestelling() {
     foreach ($pizzas as $pizza) {
         $pizzaKey = str_replace(" ", "_", $pizza["pizza naam"]);
 
-        if ($dag == "Monday") {
+        /*if ($dag == "Monday") {
             $pizzaTotaal = 7.50 * $_POST[$pizzaKey];
 
             $totaalPrijs += $pizzaTotaal;
@@ -68,10 +69,10 @@ function bestelling() {
             $pizzaTotaal = $pizza["prijs"] * $_POST[$pizzaKey];
 
             $totaalPrijs += $pizzaTotaal;
-        }
+        }*/
 
-        if ($_POST[$pizzaKey] > 0) {
-            echo "<p>Aantal: " . $_POST[$pizzaKey] . " " . $pizza["pizza naam"] . ": €" . number_format($pizzaTotaal, 2, ",", ".") . "</p>";
+        if ($pizza["pizza naam"] > 0) {
+            echo "<p>Aantal: " . $_SESSION[$pizzaKey] . " " . $pizza["pizza naam"] . ": €" . number_format($_SESSION[$pizzaKey], 2, ",", ".") . "</p>";
         }
     }
 

@@ -7,6 +7,7 @@
     <title>Pizza dela Zoltar</title>
     <?php include "./phpsheets/indexphp.php" ?>
     <?php sendData() ?>
+    <?php session() ?>
 </head>
 <body>
     <nav>
