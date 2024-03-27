@@ -127,13 +127,13 @@ function sendData() {
 function session() {
     global $pizzas;
 
-    session_start();
-
-    $_SESSION["totalPrice"] = 0;
-
     if (isset($_POST["keuze_opslaan"])) {
+        session_start();
+
         $datum = strtotime($_POST["datum"]);
         $dag = date("l", $datum);
+
+        $_SESSION["totalPrice"] = 0;
 
         foreach ($pizzas as $pizza) {
             $pizzaKey = str_replace(" ", "_", $pizza["pizza naam"]);
@@ -147,21 +147,17 @@ function session() {
             if ($dag == "Monday") {
                 $_SESSION["pizzaPrice: $pizzaKey"] = 7.50 * $_POST[$pizzaKey];
 
-                $_SESSION["totalPrice"] += $_SESSION[$pizzaKey];
+                $_SESSION["totalPrice"] += $_SESSION["pizzaPrice: $pizzaKey"];
             } elseif ($dag == "Friday") {
                 $_SESSION["pizzaPrice: $pizzaKey"] = $pizza["prijs"] * 0.85 * $_POST[$pizzaKey];
 
-                $_SESSION["totalPrice"] += $_SESSION[$pizzaKey];
+                $_SESSION["totalPrice"] += $_SESSION["pizzaPrice: $pizzaKey"];
             } else {
                 $_SESSION["pizzaPrice: $pizzaKey"] = $pizza["prijs"] * $_POST[$pizzaKey];
-    
-                $_SESSION["totalPrice"] += $_SESSION[$pizzaKey];
+
+                $_SESSION["totalPrice"] += $_SESSION["pizzaPrice: $pizzaKey"];
             }
-    
-            echo $_SESSION[$pizzaKey] . ", ";
         }
-    
-        echo "<br>" . $_SESSION["totalPrice"];
     }
 }
 

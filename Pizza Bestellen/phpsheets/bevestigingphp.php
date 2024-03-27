@@ -2,6 +2,8 @@
 
 include "./phpsheets/conn.php";
 
+session_start();
+
 try {
     $query = "SELECT * FROM pizza";
     $pizzas = $conn->prepare($query);
@@ -46,31 +48,23 @@ function bestelling() {
     global $pizzas;
     global $fetchOrderDetails;
 
-    session_start();
-
     if (isset($_SESSION["keuze_opslaan"])) {
         $aantalPizzas = 0;
         $totaalPrijs = 0;
-    
+
         $datum = strtotime($fetchOrderDetails["bezorgdatum"]);
         $dag = date("l", $datum);
-    
+
         echo ("<h2>Bestelling:</h2>");
-    
+
         foreach ($pizzas as $pizza) {
             $pizzaKey = str_replace(" ", "_", $pizza["pizza naam"]);
-    
+
             if ($_SESSION["aantal: $pizzaKey"] > 0) {
                 echo "<p>Aantal: " . $_SESSION["aantal: $pizzaKey"] . " " . $pizza["pizza naam"] . ": €" . number_format($_SESSION["pizzaPrice: $pizzaKey"], 2, ",", ".") . "</p>";
             }
         }
-    
-        if ($_SESSION["bezorgen"] == "Bezorgen") {
-            $_SESSION["totalPrice"] += 5;
-    
-            echo "Bezorg kosten: €5,00";
-        }
-    
+
         echo ("<p class='totaal'>Totaal: €" . number_format($_SESSION["totalPrice"], 2, ",", ".") . "</p>");
     }
 }
@@ -78,13 +72,19 @@ function bestelling() {
 function gegevens() {
     global $fetchOrderDetails;
 
+    $bezorgen = "Nee";
+
+    if ($_SESSION["bezorgen"] == "Bezorgen") {
+        $bezorgen = "Ja";
+    }
+
     echo ("<h2>Gegevens:</h2>");
     echo ("<p>Naam: " . $fetchOrderDetails["naam"] . "</p>");
     echo ("<p>Adres: " . $fetchOrderDetails["adres"] . "</p>");
     echo ("<p>Postcode: " . $fetchOrderDetails["postcode"] . "</p>");
     echo ("<p>Plaats: " . $fetchOrderDetails["plaats"] . "</p>");
     echo ("<p>Bezorgdatum: " . $fetchOrderDetails["bezorgdatum"] . "</p>");
-    echo ("<p>Afhalen of bezorgen: " . $fetchOrderDetails["bezorgen"] . "</p>");
+    echo ("<p>Afhalen of bezorgen: " . $bezorgen . "</p>");
 }
 
 ?>
